@@ -12,12 +12,16 @@ import {
   Trash2,
   History,
   Save,
-  Download
+  Download,
+  BookOpen
 } from 'lucide-react';
 import { binomialCDF, getStepByStepCalculations } from './utils/mathCore';
 import ComparisonChart from './components/ComparisonChart';
+import TheoryManual from './components/TheoryManual';
 
 export default function App() {
+  const [showManual, setShowManual] = useState(false);
+
   // --- Estados de los Escenarios A y B ---
   const [nA, setNA] = useState(15);
   const [pA, setPA] = useState(0.08);
@@ -247,6 +251,23 @@ export default function App() {
     setSimFailCount(0);
   };
 
+  if (showManual) {
+    return (
+      <div className="relative">
+        <div className="fixed top-6 right-6 md:top-8 md:right-8 z-50">
+          <button
+            onClick={() => setShowManual(false)}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-900 border border-slate-700 hover:border-cyan-500/50 hover:bg-slate-800 text-cyan-400 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-cyan-500/10 backdrop-blur-md"
+          >
+            <BookOpen className="w-4 h-4" />
+            Volver al Dashboard
+          </button>
+        </div>
+        <TheoryManual />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen pb-16 px-4 md:px-8 max-w-7xl mx-auto flex flex-col justify-start">
 
@@ -267,6 +288,13 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowManual(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 hover:border-cyan-500/50 hover:bg-slate-700 text-cyan-400 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-cyan-500/10 hidden sm:flex"
+          >
+            <BookOpen className="w-4 h-4" />
+            Manual Teórico
+          </button>
           <button
             id="btn-reset-all"
             onClick={handleReset}
